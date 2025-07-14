@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>StayBuddies</title>
+  <link th:href="@{/css/styles.css}" rel="stylesheet"/>
+</head>
+<body>
+
+<!-- ─── Navbar (sticky) ─────────────────────────────────────────────── -->
+<nav class="navbar">
+  <div class="container nav-container">
+    <a href="#" class="navbar-brand">StayBuddies</a>
+    <ul class="nav-menu">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#how-it-works">How It Works</a></li>
+      <li><a href="#testimonials">Testimonials</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ─── Hero ───────────────────────────────────────────────────────── -->
+  <section id="hero" class="hero-content container">
+    <div class="hero-text">
+      <h1>Find Your Perfect Roommate with AI-powered Compatibility!</h1>
+      <p>Our AI-powered matching system analyzes lifestyle, behavior patterns, and preferences to find your ideal roommate.</p>
+      <div class="hero-buttons">
+        <a th:href="@{/quiz}" class="btn btn-primary">Take the Quiz ➔</a>
+        <a href="#features" class="btn btn-outline">Learn more</a>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img
+              th:src="@{/img/roommate.jpg}"
+              src="/img/roommate.jpg"
+              alt="Two happy roommates"
+              class="img-fluid rounded-2xl shadow-lg"
+      />
+    </div>
+  </section>
+
+  <!-- ─── Features ───────────────────────────────────────────────────── -->
+  <section id="features" class="section section-light">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Features</span>
+        <h2>Smart Matching, Better Living</h2>
+        <p>Our platform goes beyond basic preferences to analyze behavior patterns and ensure compatible living situations.</p>
+      </div>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <!-- your icon -->
+            <i class="icon">👤</i>
+          </div>
+          <h3>Lifestyle Matching</h3>
+          <p>Our detailed lifestyle quiz helps match you with compatible roommates based on your habits and preferences.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <i class="icon">📊</i>
+          </div>
+          <h3>Behavior Analysis</h3>
+          <p>Track and analyze utility usage, noise levels, and other living habits to ensure compatibility.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <i class="icon">💬</i>
+          </div>
+          <h3>Secure Messaging</h3>
+          <p>Connect with potential roommates through our secure in-app messaging system before making any commitments.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── How It Works ───────────────────────────────────────────────── -->
+  <section id="how-it-works" class="section section-light">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">How It Works</span>
+        <h2>Simple Steps to Find Your Match</h2>
+        <p>Our process is designed to be easy, efficient, and effective in finding your ideal roommate.</p>
+      </div>
+      <div class="steps-grid">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h4>Create Profile</h4>
+          <p>Sign up and create your detailed profile with preferences and lifestyle information.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <h4>Take Quiz</h4>
+          <p>Complete our comprehensive lifestyle and behavior quiz to help us understand your living habits.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <h4>Track Behavior</h4>
+          <p>Use our behavior tracking tools to analyze your utility usage, noise patterns, and daily habits.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">4</div>
+          <h4>Get Matched</h4>
+          <p>Receive personalized roommate matches based on compatibility scores and preferences.</p>
+        </div>
+      </div>
+      <div class="section-cta">
+        <a th:href="@{/signup}" class="btn btn-primary">Get started now ➔</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Testimonials ────────────────────────────────────────────────── -->
+  <section id="testimonials" class="section section-light">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Testimonials</span>
+        <h2>What Our Users Say</h2>
+        <p>Hear from students who found their perfect roommate match through our platform.</p>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <p class="testimonial-text">“The behavior analysis feature was a game-changer. I found a roommate who has similar utility usage habits, and we’ve never had an argument about bills!”</p>
+          <div class="testimonial-footer">
+            <div class="testimonial-avatar-wrapper">A</div>
+            <div>
+              <strong>Alex Johnson</strong><br/>
+              <small>UCLA Student</small>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <p class="testimonial-text">“The lifestyle quiz matched me with someone who has the same study habits and sleep schedule. It's been the most peaceful living situation I’ve ever had.”</p>
+          <div class="testimonial-footer">
+            <div class="testimonial-avatar-wrapper">S</div>
+            <div>
+              <strong>Samantha Lee</strong><br/>
+              <small>NYU Student</small>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <p class="testimonial-text">“I was skeptical at first, but the behavior tracking dashboard really helped me understand my own habits and find someone compatible.”</p>
+          <div class="testimonial-footer">
+            <div class="testimonial-avatar-wrapper">M</div>
+            <div>
+              <strong>Marcus Williams</strong><br/>
+              <small>UMich Student</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Final CTA ───────────────────────────────────────────────────── -->
+  <section id="cta" class="section section-dark">
+    <div class="container cta-content">
+      <h2>Ready to Find Your Perfect Roommate?</h2>
+      <p>Join thousands of students who have found their ideal living situation through our platform.</p>
+      <div class="cta-buttons">
+        <a th:href="@{/signup}" class="btn btn-light">Get started for free ➔</a>
+        <a th:href="@{/quiz}" class="btn btn-outline-light">Take the quiz</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+</body>
+</html>
+

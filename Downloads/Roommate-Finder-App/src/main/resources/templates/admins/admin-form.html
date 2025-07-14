@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${id} != null ? 'Edit Admin' : 'New Admin'">Admin Form</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div class="layout">
+    <div th:insert="~{fragments/sidebar :: sidebar}"></div>
+
+    <main class="main-content">
+        <h1 th:text="${id} != null ? 'Edit Admin' : 'Add Admin'"></h1>
+        <form th:action="@{/admins/save}" th:object="${adminRequest}" method="post">
+            <input type="hidden" name="id" th:value="${id}"/>
+            <div><label>Name</label><input th:field="*{name}"/></div>
+            <div><label>Email</label><input th:field="*{email}"/></div>
+            <div><label>Password</label><input type="password" th:field="*{password}"/></div>
+            <div><label>Phone</label><input th:field="*{phone}"/></div>
+            <div>
+                <button type="submit">Save</button>
+                <a th:href="@{/admins}">Cancel</a>
+            </div>
+        </form>
+    </main>
+</div>
+</body>
+</html>

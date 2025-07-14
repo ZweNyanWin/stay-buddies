@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="sidebar" class="sidebar">
+    <h2 style="margin-bottom: 1.5rem;">Admin Panel</h2>
+    <ul>
+        <li>
+            <a th:href="@{/dashboard}"
+               th:classappend="${currentUri.startsWith('/dashboard')} ? 'active'">
+                Dashboard
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/admin/users}"
+               th:classappend="${currentUri.startsWith('/admin/users')} ? 'active'">
+                User Management
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/admins}"
+               th:classappend="${currentUri.startsWith('/admins')} ? 'active'">
+                Admin Management
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/report}"
+               th:classappend="${currentUri.startsWith('/report')} ? 'active'">
+                Report & Moderation
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/monitoring}"
+               th:classappend="${currentUri.startsWith('/monitoring')} ? 'active'">
+                Message & Monitoring
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/analytics}"
+               th:classappend="${currentUri.startsWith('/analytics')} ? 'active'">
+                Analytics
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/settings}"
+               th:classappend="${currentUri.startsWith('/settings')} ? 'active'">
+                System Settings
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+</body>
+</html>

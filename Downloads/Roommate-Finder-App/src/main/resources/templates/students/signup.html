@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up</title>
+    <!-- Bootstrap core -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            crossorigin="anonymous"/>
+    <link th:href="@{/css/styles.css}" rel="stylesheet"/>
+</head>
+<body class="bg-light">
+
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-lg-6 col-md-8">
+
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+
+                    <h2 class="card-title text-center mb-3">Create an account</h2>
+                    <p class="text-center text-muted mb-4">
+                        Enter your details to get started finding your perfect roommate
+                    </p>
+
+                    <form th:action="@{/signup}" th:object="${user}" method="post">
+                        <!-- Full Name -->
+                        <div class="mb-3">
+                            <label class="form-label">Full Name</label>
+                            <input
+                                    type="text"
+                                    th:field="*{username}"
+                                    class="form-control"
+                                    placeholder="Enter your full name"
+                                    required/>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input
+                                    type="email"
+                                    th:field="*{email}"
+                                    class="form-control"
+                                    placeholder="Enter your email"
+                                    required/>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="mb-3">
+                            <label class="form-label">Password</label>
+                            <input
+                                    type="password"
+                                    th:field="*{password}"
+                                    class="form-control"
+                                    placeholder="Create a password"
+                                    required/>
+                        </div>
+
+                        <!-- Confirm Password -->
+                        <div class="mb-3">
+                            <label class="form-label">Confirm Password</label>
+                            <input
+                                    type="password"
+                                    name="confirmPassword"
+                                    class="form-control"
+                                    placeholder="Confirm your password"
+                                    required/>
+                        </div>
+
+                        <!-- Gender -->
+                        <div class="mb-3">
+                            <label class="form-label">Gender</label>
+                            <input
+                                    type="text"
+                                    th:field="*{gender}"
+                                    class="form-control"
+                                    placeholder="e.g. Male / Female"
+                                    required/>
+                        </div>
+
+                        <!-- Age -->
+                        <div class="mb-3">
+                            <label class="form-label">Age</label>
+                            <input
+                                    type="number"
+                                    th:field="*{age}"
+                                    class="form-control"
+                                    placeholder="Enter your age"
+                                    required/>
+                        </div>
+
+                        <!-- Location -->
+                        <div class="mb-3">
+                            <label class="form-label">Area or Postal Code</label>
+                            <input
+                                    type="text"
+                                    th:field="*{location}"
+                                    class="form-control"
+                                    placeholder="Enter your area or postal code"
+                                    required/>
+                        </div>
+
+                        <!-- University -->
+                        <div class="mb-3">
+                            <label class="form-label">University</label>
+                            <input
+                                    type="text"
+                                    th:field="*{university}"
+                                    class="form-control"
+                                    placeholder="Enter your university name"
+                                    required/>
+                        </div>
+
+                        <!-- Already Has Room? -->
+                        <div class="form-check form-switch mb-4">
+                            <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    th:field="*{alreadyHasRoom}"
+                                    id="hasRoomSwitch"/>
+                            <label class="form-check-label" for="hasRoomSwitch">
+                                Do you already have a room?
+                            </label>
+                        </div>
+
+                        <!-- Submit -->
+                        <div class="d-grid mb-3">
+                            <button type="submit" class="btn btn-success">
+                                Sign Up
+                            </button>
+                        </div>
+
+                        <!-- Error Message -->
+                        <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+                    </form>
+
+                    <hr/>
+
+                    <p class="text-center mb-0">
+                        Already have an account?
+                        <a th:href="@{/login}">Log in</a>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous">
+</script>
+</body>
+</html>
+

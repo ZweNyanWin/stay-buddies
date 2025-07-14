@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Messages – StayBuddies</title>
+  <link rel="stylesheet" th:href="@{/css/messages.css}" />
+  <!-- STOMP / SockJS -->
+  <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
+</head>
+<body>
+<!-- ── Top Nav ────────────────────────────────────────────────────────── -->
+<header class="top-nav">
+  <a href="#" class="logo">StayBuddies</a>
+  <nav>
+    <ul>
+      <li><a th:href="@{/dashboard}">Dashboard</a></li>
+      <li><a th:href="@{/matches}">Matches</a></li>
+      <li class="active"><a th:href="@{/messages/{id}(id=${otherUser.id})}">Messages</a></li>
+      <li><a th:href="@{/profile}">Profile</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div class="main-container">
+  <!-- ── Conversations Sidebar ───────────────────────────────────────── -->
+  <aside class="conversations">
+    <h2>Conversations</h2>
+    <input type="text" placeholder="Search…" />
+    <ul>
+      <li th:each="conv : ${conversations}"
+          th:classappend="${conv.otherUser.id} == ${otherUser.id} ? 'selected'">
+        <a th:href="@{|/messages/${conv.otherUser.id}|}">
+          <div class="avatar" th:text="${conv.otherUser.initials}">AA</div>
+          <div class="info">
+            <div class="name" th:text="${conv.otherUser.name}">Alice</div>
+            <div class="snippet" th:text="${conv.lastMessage.content}">Hey there…</div>
+          </div>
+          <div class="time"
+               th:text="${#dates.format(conv.lastMessage.sentAt,'hh:mm a')}">01:23 PM</div>
+        </a>
+      </li>
+    </ul>
+  </aside>
+
+  <!-- ── Chat Window ──────────────────────────────────────────────────── -->
+  <section class="chat">
+    <header class="chat-header">
+      <div class="avatar" th:text="${otherUser.initials}">BB</div>
+      <div class="user-info">
+        <h3 th:text="${otherUser.name}">Bob</h3>
+        <span th:text="${otherUser.online} ? 'Online' : 'Offline'">Online</span>
+      </div>
+      <div class="actions">
+        <button class="icon phone"></button>
+        <button class="icon video"></button>
+        <button class="icon info"></button>
+        <button class="icon more"></button>
+      </div>
+    </header>
+
+    <div class="chat-body" id="chat-body">
+      <!-- messages appended by JS -->
+    </div>
+
+    <footer class="chat-input">
+      <input type="text" id="msg-input" placeholder="Type a message…" autocomplete="off"/>
+      <button id="send-btn" class="send-btn">Send</button>
+    </footer>
+  </section>
+
+  <!-- ── Profile Sidebar ──────────────────────────────────────────────── -->
+  <aside class="profile">
+    <div class="profile-overview">
+      <div class="avatar-large" th:text="${otherUser.initials}">BB</div>
+      <h3 th:text="${otherUser.name}">Bob</h3>
+      <span th:text="${otherUser.online} ? 'Online' : 'Offline'">Online</span>
+      <button th:onclick="|location.href='@{/profile/{id}(id=${otherUser.id})}'|">
+        View Profile
+      </button>
+      <button class="block-btn">Block</button>
+    </div>
+
+    <div class="about">
+      <h4>About</h4>
+      <p><strong>Compatibility:</strong> <span th:text="${otherUser.compatibility} + '%'">85%</span></p>
+      <p><strong>Budget:</strong> <span th:text="${otherUser.budget}">$500–700</span></p>
+      <p><strong>Location:</strong> <span th:text="${otherUser.location}">3 miles away</span></p>
+    </div>
+
+    <div class="tags">
+      <h4>Interests</h4>
+      <span th:each="tag : ${otherUser.tags}" class="tag" th:text="${tag}">Quiet</span>
+    </div>
+
+    <div class="bio">
+      <h4>Bio</h4>
+      <p th:text="${otherUser.bio}">I love hiking and cooking…</p>
+    </div>
+  </aside>
+</div>
+
+<!-- ── STOMP + History + Send/Receive Logic ──────────────────────────── -->
+<script th:inline="javascript">
+  const currentUserId = [[${currentUser.id}]];
+  const otherUserId   = [[${otherUser.id}]];
+
+  let stompClient = null;
+
+  function connect() {
+    const sock = new SockJS('/ws');
+    stompClient = Stomp.over(sock);
+    stompClient.connect({}, () => {
+      stompClient.subscribe('/user/queue/messages', frame => {
+        const msg = JSON.parse(frame.body);
+        appendMessage(msg);
+      });
+    });
+  }
+
+  function loadHistory() {
+    fetch(`/api/messages/${otherUserId}`)
+            .then(res => res.json())
+            .then(list => {
+              list.forEach(appendMessage);
+              scrollBottom();
+            });
+  }
+
+  function appendMessage(msg) {
+    const body = document.getElementById('chat-body');
+    const el = document.createElement('div');
+    el.classList.add('message', msg.senderId === currentUserId ? 'outgoing' : 'incoming');
+    el.innerHTML = `
+        <p>${msg.content}</p>
+        <span class="timestamp">${new Date(msg.sentAt).toLocaleTimeString()}</span>
+      `;
+    body.appendChild(el);
+    scrollBottom();
+  }
+
+  function scrollBottom() {
+    const body = document.getElementById('chat-body');
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function sendMessage() {
+    const input = document.getElementById('msg-input');
+    const text = input.value.trim();
+    if (!text || !stompClient) return;
+    stompClient.send('/app/chat.send', {},
+            JSON.stringify({ toUserId: otherUserId, content: text })
+    );
+    input.value = '';
+  }
+
+  document.getElementById('send-btn')
+          .addEventListener('click', sendMessage);
+
+  // initialize
+  connect();
+  loadHistory();
+</script>
+</body>
+</html>
